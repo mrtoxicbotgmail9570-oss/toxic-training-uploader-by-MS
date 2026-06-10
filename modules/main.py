@@ -13,6 +13,10 @@ import m3u8
 import core as helper
 from utils import progress_bar
 from vars import API_ID, API_HASH, BOT_TOKEN
+
+# Webhook & port config (set WEBHOOK=True in env to enable web server)
+WEBHOOK = os.getenv("WEBHOOK", "False").lower() in ("true", "1", "yes")
+PORT = int(os.getenv("PORT", 10000))
 from aiohttp import ClientSession
 from pyromod import listen
 from subprocess import getstatusoutput
