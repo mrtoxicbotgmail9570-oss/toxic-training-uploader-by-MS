@@ -285,41 +285,41 @@ async def restart_handler(_, m):
 @bot.on_message(filters.command(["addauth"]))
 async def addauth_handler(client: Client, m: Message):
     if m.from_user.id != OWNER:
-        return await m.reply_text("❌ Only owner can use this command.")
+        return await m.reply_text("❌ ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.")
     parts = m.text.split()
     if len(parts) < 2:
-        return await m.reply_text("Usage: `/addauth <user_id>`")
+        return await m.reply_text("ᴜꜱᴀɢᴇ: /addauth <ᴜꜱᴇʀ_ɪᴅ>")
     try:
         uid = int(parts[1])
     except ValueError:
-        return await m.reply_text("❌ Invalid user ID.")
+        return await m.reply_text("❌ ɪɴᴠᴀʟɪᴅ ᴜꜱᴇʀ ɪᴅ.")
     auth_users.add(uid)
     _save_auth_users(auth_users)
-    await m.reply_text(f"✅ User `{uid}` added to authorized list.\n💾 Saved to JSON.")
+    await m.reply_text(f"✅ ᴜꜱᴇʀ `{uid}` ᴀᴅᴅᴇᴅ ᴛᴏ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ʟɪꜱᴛ.\n🥳ɴᴏᴡ ᴛʜɪꜱ ᴜꜱᴇʀ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ʙᴏᴛ.")
 
 @bot.on_message(filters.command(["rmauth"]))
 async def rmauth_handler(client: Client, m: Message):
     if m.from_user.id != OWNER:
-        return await m.reply_text("❌ Only owner can use this command.")
+        return await m.reply_text("❌ ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.")
     parts = m.text.split()
     if len(parts) < 2:
-        return await m.reply_text("Usage: `/rmauth <user_id>`")
+        return await m.reply_text("ᴜꜱᴀɢᴇ: /rmauth <ᴜꜱᴇʀ_ɪᴅ>")
     try:
         uid = int(parts[1])
     except ValueError:
-        return await m.reply_text("❌ Invalid user ID.")
+        return await m.reply_text("❌ ɪɴᴠᴀʟɪᴅ ᴜꜱᴇʀ ɪᴅ.")
     auth_users.discard(uid)
     _save_auth_users(auth_users)
-    await m.reply_text(f"✅ User `{uid}` removed from authorized list.\n💾 Saved to JSON.")
+    await m.reply_text(f"✅ ᴜꜱᴇʀ `{uid}` ʀᴇᴍᴏᴠᴇᴅ ꜰʀᴏᴍ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ʟɪꜱᴛ.\n🤫ᴀʟʀɪɢʜᴛꜱ ɴᴏᴡ ᴛʜɪꜱ ᴜꜱᴇʀ ᴄᴀɴ'ᴛ ᴜꜱᴇ ᴛʜɪꜱ ʙᴏᴛ.")
 
 @bot.on_message(filters.command(["users"]))
 async def allusers_handler(client: Client, m: Message):
     if m.from_user.id != OWNER:
-        return await m.reply_text("❌ Only owner can use this command.")
+        return await m.reply_text("❌ ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.")
     if not auth_users:
-        return await m.reply_text("📋 No authorized users yet.")
+        return await m.reply_text("📋 ɴᴏ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜꜱᴇʀꜱ ʏᴇᴛ.")
     user_list = "\n".join([f"• `{uid}`" for uid in auth_users])
-    await m.reply_text(f"👥 **Authorized Users ({len(auth_users)}):**\n\n{user_list}")
+    await m.reply_text(f"👥 **ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴜꜱᴇʀꜱ ({len(auth_users)}):**\n\n{user_list}")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # ── BROADCAST SYSTEM (Owner only — JSON-backed) ───────────────────────────────
@@ -328,15 +328,15 @@ async def allusers_handler(client: Client, m: Message):
 @bot.on_message(filters.command(["broadcast"]))
 async def broadcast_handler(client: Client, m: Message):
     if m.from_user.id != OWNER:
-        return await m.reply_text("❌ Only owner can use this command.")
+        return await m.reply_text("❌ ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.")
     if not m.reply_to_message:
-        return await m.reply_text("📢 Reply to a message to broadcast it.")
+        return await m.reply_text("📢 ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇꜱꜱᴀɢᴇ ᴛᴏ ʙʀᴏᴀᴅᴄᴀꜱᴛ ɪᴛ.")
     
     total = len(broadcast_users)
     if total == 0:
-        return await m.reply_text("No users to broadcast to yet.")
+        return await m.reply_text("ɴᴏ ᴜꜱᴇʀꜱ ᴛᴏ ʙʀᴏᴀᴅᴄᴀꜱᴛ ᴛᴏ ʏᴇᴛ.")
     
-    status = await m.reply_text(f"📢 Broadcasting to {total} users...")
+    status = await m.reply_text(f"📢 ʙʀᴏᴀᴅᴄᴀꜱᴛɪɴɢ ᴛᴏ {total} ᴜꜱᴇʀ...")
     success, failed = 0, 0
     for uid in list(broadcast_users):
         try:
@@ -346,22 +346,22 @@ async def broadcast_handler(client: Client, m: Message):
         except Exception:
             failed += 1
     await status.edit_text(
-        f"📢 **Broadcast Complete!**\n\n"
-        f"✅ Success: {success}\n"
-        f"❌ Failed: {failed}\n"
-        f"👥 Total: {total}"
+        f"📢 **ʙʀᴏᴀᴅᴄᴀꜱᴛ ᴄᴏᴍᴘʟᴇᴛᴇ!**\n\n"
+        f"✅ ꜱᴜᴄᴄᴇꜱꜱ: {success}\n"
+        f"❌ ꜰᴀɪʟᴇᴅ: {failed}\n"
+        f"👥 ᴛᴏᴛᴀʟ: {total}"
     )
 
 @bot.on_message(filters.command(["broadusers"]))
 async def broadusers_handler(client: Client, m: Message):
     if m.from_user.id != OWNER:
-        return await m.reply_text("❌ Only owner can use this command.")
+        return await m.reply_text("❌ ᴏɴʟʏ ᴏᴡɴᴇʀ ᴄᴀɴ ᴜꜱᴇ ᴛʜɪꜱ ᴄᴏᴍᴍᴀɴᴅ.")
     total = len(broadcast_users)
     if total == 0:
-        return await m.reply_text("📋 No broadcast users registered yet.")
+        return await m.reply_text("📋ɴᴏ ʙʀᴏᴀᴅᴄᴀꜱᴛ ᴜꜱᴇʀꜱ ʀᴇɢɪꜱᴛᴇʀᴇᴅ ʏᴇᴛ.")
     uid_list = "\n".join([f"• `{uid}`" for uid in list(broadcast_users)[:50]])
     suffix = f"\n\n...and {total - 50} more." if total > 50 else ""
-    await m.reply_text(f"👥 **Broadcast Users ({total}):**\n\n{uid_list}{suffix}")
+    await m.reply_text(f"👥 **ʙʀᴏᴀᴅᴄᴀꜱᴛ ᴜꜱᴇʀꜱ ({total}):**\n\n{uid_list}{suffix}")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # ── /changeapi COMMAND (Owner only — updates PWAPI1 & PWAPI2 live) ────────────
@@ -372,42 +372,42 @@ async def changeapi_handler(client: Client, m: Message):
     global PWAPI1, PWAPI2
     if m.from_user.id != OWNER:
         return await m.reply_text(
-            "To change your Api in your Repository in this format👇🏻.\n\n"
-            "/changeapi New Api Here\n**https... to .com/pw** tak Only😁.\n\n"
-            "But But But🫡\n"
-            "Sorry you are not my owner😒."
+            "ᴛᴏ ᴄʜᴀɴɢᴇ ᴏᴜʀ ᴀᴘɪ ɪɴ ᴏᴜʀ ʀᴇᴘᴏꜱɪᴛᴏʀʏ ɪɴ ᴛʜɪꜱ ꜰᴏʀᴍᴀᴛ👇🏻.\n\n"
+            "/changeapi ɴᴇᴡ ᴀᴘɪ ʜᴇʀᴇ\n**https... to .com/pw** ᴜᴘᴛᴏ ᴛʜɪꜱ ᴘᴏɪɴᴛ ᴏɴʟʏ😁.\n\n"
+            "ʙᴜᴛ ʙᴜᴛ ʜᴀʙɪʙɪ🫡\n"
+            "ꜱᴏʀʀʏ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴍʏ ᴏᴡɴᴇʀ😒."
         )
     parts = m.text.split(None, 1)
     if len(parts) < 2 or not parts[1].strip():
         return await m.reply_text(
-            "Welcome Boss! Change your API in this format:\n\n"
-            "/changeapi New Api Here\n**https... to .com/pw** tak Only😁.\n\n"
-            "Send me and I will change it.✨"
+            "ᴡᴇʟᴄᴏᴍᴇ ʙᴏꜱꜱ! ᴛᴏ ᴄʜᴀɴɢᴇ ᴏᴜʀ ᴀᴘɪ ɪɴ ᴏᴜʀ ʀᴇᴘᴏꜱɪᴛᴏʀʏ ɪɴ ᴛʜɪꜱ ꜰᴏʀᴍᴀᴛ:\n\n"
+            "/changeapi ɴᴇᴡ ᴀᴘɪ ʜᴇʀᴇ\n**https... to .com/pw** ᴜᴘᴛᴏ ᴛʜɪꜱ ᴘᴏɪɴᴛ ᴏɴʟʏ😁.\n\n"
+            "ꜱᴇɴᴅ ᴍᴇ ʙᴏꜱꜱ ɪ ᴡɪʟʟ ᴄʜᴀɴɢᴇ ɪᴛ.✨"
         )
     new_api = parts[1].strip()
     PWAPI1 = new_api
     PWAPI2 = new_api
     await m.reply_text(
-        f"**💕𝐀𝐩𝐢 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐂𝐡𝐚𝐧𝐠𝐞𝐝!**\n\n"
-        f"🔗 **𝐍𝐞𝐰 𝐀𝐩𝐢:**\n`{PWAPI1}`\n\n"
-        f"⚡ 𝐂𝐡𝐚𝐧𝐠𝐞𝐝 𝐋𝐢𝐯𝐞 𝐍𝐨𝐰 — 𝐍𝐨 𝐁𝐨𝐭 𝐫𝐞𝐬𝐭𝐚𝐫𝐭 𝐧𝐞𝐞𝐝𝐞𝐝 𝐔𝐬𝐞 𝐍𝐨𝐰🚀."
+        f"**💕✅ᴀᴘɪ ᴄʜᴀɴɢᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ!**\n\n"
+        f"🔗 **ɴᴇᴡ ᴀᴘɪ:**\n`{PWAPI1}`\n\n"
+        f"⚡ ɴᴏ ʙᴏᴛ ʀᴇꜱᴛᴀʀᴛ ɴᴇᴇᴅᴇᴅ, ᴜꜱᴇ ᴘᴇᴀᴄᴇꜰᴜʟ ɴᴏᴡ.🚀."
     )
 
 # ══════════════════════════════════════════════════════════════════════════════
 
-@bot.on_message(filters.command(["The08"]) )
+@bot.on_message(filters.command(["Fury"]) )
 async def txt_handler(bot: Client, m: Message):
     # ── Auth Check ────────────────────────────────────────────────────────────
     if m.chat.id not in auth_users:
         return await m.reply_text(
-            f"<blockquote>🤣😘 **Please Upgrade Your Plan to Become Owner then Use Me!**\n\n"
-            f"__Oopss! You are not a Premium member__\n"
-            f"__Want to use this? Contact owner first!__\n\n"
-            f"**Your User ID:** `{m.chat.id}`</blockquote>\n\n"
-            f"👉 Contact: @SmartBoy_ApnaMS"
+            f"<blockquote>😘 **ɪ ʟᴏᴠᴇ ʏᴏᴜ ʜᴀʙɪʙɪ**\n\n"
+            f"ᴏᴏᴘꜱꜱ! ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀ ᴘʀᴇᴍɪᴜᴍ ᴍᴇᴍʙᴇʀ.\n"
+            f"ᴡᴀɴɴᴀ ᴛᴏ ᴜꜱᴇ ᴛʜɪꜱ? ᴄᴏɴᴛᴀᴄᴛ ᴏᴡɴᴇʀ ꜰɪʀꜱᴛ!\n\n"
+            f"**ʏᴏᴜʀ ᴜꜱᴇʀ ɪᴅ:** `{m.chat.id}`</blockquote>\n\n"
+            f"👉 ᴄᴏɴᴛᴀᴄᴛ: @SmartBoy_ApnaMS"
         )
     # ─────────────────────────────────────────────────────────────────────────
-    editable = await m.reply_text(f"**🔹Hi I am Poweful Lovely TXT Downloader📥 Bot.**\n🔹**Send me the TXT file and Just wait and Watch😚.**")
+    editable = await m.reply_text(f"**🔹ʜᴀʙɪʙɪ ɪ ᴀᴍ ᴘᴏᴡᴇꜰᴜʟ ꜰᴜʀʏ ᴛxᴛ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ ʙᴏᴛ📥.**\n🔹**ꜱᴇɴᴅ ᴍᴇ ᴛʜᴇ ᴛxᴛ ꜰɪʟᴇ ᴀɴᴅ ᴊᴜꜱᴛ ᴡᴀɪᴛ ᴀɴᴅ ᴡᴀᴛᴄʜ😎.**")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await input.delete(True)
@@ -423,11 +423,11 @@ async def txt_handler(bot: Client, m: Message):
             links.append(i.split("://", 1))
         os.remove(x)
     except:
-        await m.reply_text("Ohho Mera Bachcha 🫂🌚🤣.")
+        await m.reply_text("<b> ᴏʜʜᴏ ᴍᴇʀᴀ ʙᴀᴄʜᴄʜᴀ</b> 🫂🌚🤣.")
         os.remove(x)
         return
    
-    await editable.edit(f"Total links found are **{len(links)}**\n\nSend From where you want to download🤔 initial is **1**")
+    await editable.edit(f"ᴛᴏᴛᴀʟ ʟɪɴᴋꜱ ᴅᴇᴛᴇᴄᴛᴇᴅ: **{len(links)}**\n\nꜱᴇɴᴅ ᴍᴇ ᴡʜᴇʀᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ🤔 ꜱᴛᴀʀᴛɪɴɢ ɪꜱ **1**")
     input0: Message = await bot.listen(editable.chat.id)
     raw_text = input0.text
     await input0.delete(True)
@@ -435,16 +435,16 @@ async def txt_handler(bot: Client, m: Message):
         arg = int(raw_text)
     except:
         arg = 1
-    await editable.edit("**Enter Your Batch Name or send '/up' for grabing from text filename.😉**")
+    await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ʙᴀᴛᴄʜ ɴᴀᴍᴇ ᴏʀ\n\nꜱᴇɴᴅ /UP ꜱᴏ ᴛʜᴀᴛ ɪ ᴡɪʟʟ ᴜꜱᴇ ʏᴏᴜʀ ᴀᴄᴛᴜᴀʟʟ ꜰɪʟᴇ ɴᴀᴍᴇ😉.**")
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
-    if raw_text0 == '/up':
+    if raw_text0 == '/UP':
         b_name = file_name
     else:
         b_name = raw_text0
 
-    await editable.edit("**Enter resolution.\n Eg : 144, 250, 360, 480, 720 or 1080😚**")
+    await editable.edit("**ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ\nꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ :\n🔹⬩➤ 144\n🔹⬩➤ 250\n🔹⬩➤ 360\n🔹⬩➤ 480\n🔹⬩➤ 720\n🔹⬩➤ 1080\n\nᴀꜱ ʏᴏᴜʀ ᴡɪꜱʜ ʜᴀʙɪʙɪ🤭.**")
     input2: Message = await bot.listen(editable.chat.id)
     raw_text2 = input2.text
     await input2.delete(True)
@@ -466,16 +466,16 @@ async def txt_handler(bot: Client, m: Message):
     except Exception:
             res = "UN"
     
-    await editable.edit("**Enter Your Name or send '/SK' for use default.🌚\n Eg :@SunilChoudhary08 **")
+    await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ɴᴀᴍᴇ ᴏʀ\n\nꜱᴇɴᴅ /MS ꜰᴏʀ ᴜꜱɪɴɢ ᴍʏ ɴᴀᴍᴇ🌚.\nꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ :\n@smartBoy_ApnMS **")
     input3: Message = await bot.listen(editable.chat.id)
     raw_text3 = input3.text
     await input3.delete(True)
-    if raw_text3 == '/SK':
+    if raw_text3 == '/MS':
         CR = credit
     else:
         CR = raw_text3
         
-    await editable.edit("**Enter Your PW Token For 𝐌𝐏𝐃 𝐔𝐑𝐋  or send '/VIP' for use default🎀**")
+    await editable.edit("**ᴇɴᴛᴇʀ ʏᴏᴜʀ ᴘᴡ ᴛᴏᴋᴇɴ ꜰᴏʀ 𝐌𝐏𝐃 𝐔𝐑𝐋 ᴏʀ\n\nꜱᴇɴᴅ /VIP ꜰᴏʀ ᴄᴏɴᴛɪɴᴜᴇ ᴡɪᴛʜᴏᴜᴛ ᴛᴏᴋᴇɴ🎀.**")
     input4: Message = await bot.listen(editable.chat.id)
     raw_text4 = input4.text
     await input4.delete(True)
@@ -484,7 +484,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         MR = raw_text4
         
-    await editable.edit("Now send the **Thumb url**\n**Eg: Who's End With .jpg** ``\n\nor Send `no`")
+    await editable.edit("**ɴᴏᴡ ꜱᴇɴᴅ ᴛʜᴇ ᴛʜᴜᴍʙɴᴀɪʟ ᴜʀʟ ᴏʀ**\n\nꜱᴇɴᴅ `no` ꜰᴏʀ ᴡɪᴛʜᴏᴜᴛ ᴛʜɪꜱ\n\n⬩➤ꜰᴏʀ ᴀɴ ᴇxᴀᴍᴘʟᴇ\nʜᴛᴛᴘꜱ://ɢʀᴀᴘʜ.ᴏʀɢ/ꜰɪʟᴇxʏᴢ.ᴊᴘɢ")
     input6 = message = await bot.listen(editable.chat.id)
     raw_text6 = input6.text
     await input6.delete(True)
