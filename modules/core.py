@@ -1,5 +1,7 @@
 import os
+import re
 import time
+import shlex
 import datetime
 import aiohttp
 import aiofiles
@@ -20,13 +22,95 @@ from yt_dlp import YoutubeDL
 import yt_dlp as youtube_dl
 
 
+# ─────────────────────────────────────────────
+#  TITLE SANITIZER  –  handles Hindi, emoji,
+#  multiple colons, brackets, ratio signs, etc.
+# ─────────────────────────────────────────────
+def sanitize_title(title: str) -> str:
+    """
+    Convert any messy video title into a safe filename string.
+
+    Handles:
+      • Hindi / Devanagari and other Unicode text  → kept as-is
+      • Multiple colons  (:, ：)                   → replaced with " -"
+      • Ratio signs  (∶)                           → replaced with "-"
+      • Multiple brackets  ( ) [ ] { }             → spaces around them
+      • Slashes, backslashes                        → replaced with "-"
+      • Control characters / null bytes            → stripped
+      • Leading / trailing whitespace & dots       → stripped
+      • Consecutive spaces                         → collapsed to one space
+    """
+    if not title:
+        return "untitled"
+
+    # Replace all colon variants with " -"
+    title = re.sub(r'[：:∶]+', ' -', title)
+
+    # Replace slashes and backslashes
+    title = re.sub(r'[/\\]+', '-', title)
+
+    # Replace ratio / pipe / angle brackets that break paths
+    title = re.sub(r'[|<>]', '-', title)
+
+    # Strip null bytes and ASCII control characters (keep Unicode)
+    title = re.sub(r'[\x00-\x1f\x7f]', '', title)
+
+    # Collapse multiple spaces / tabs
+    title = re.sub(r'[ \t]+', ' ', title)
+
+    # Strip leading/trailing whitespace and dots
+    title = title.strip(' .')
+
+    return title if title else "untitled"
+
+
+# ─────────────────────────────────────────────
+#  URL EXTRACTOR  –  handles nested / duplicate
+#  proxy URLs like:
+#    https://proxy.com/pw?url=https://proxy.com/pw?url=https://real.mpd&...
+#  → always returns the FIRST (outermost) URL
+# ─────────────────────────────────────────────
+def extract_first_url(raw: str) -> str:
+    """
+    Given a string that may contain one or more URLs (http/https),
+    return only the FIRST complete URL found.
+
+    Works for:
+      • Plain URLs
+      • Nested proxy URLs  (?url=https://...?url=https://...)
+      • URLs embedded in text / log lines
+    """
+    raw = raw.strip()
+    # Find the position of the very first http:// or https://
+    match = re.search(r'https?://', raw)
+    if not match:
+        return raw  # no URL found, return as-is
+
+    # Slice from the first http and return (trim trailing whitespace/newlines)
+    first_url = raw[match.start():].split()[0]
+    return first_url
+
+
 def duration(filename):
-    result = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
-                             "format=duration", "-of",
-                             "default=noprint_wrappers=1:nokey=1", filename],
+    """
+    Return duration in seconds as float.
+    Safe against: empty output, error messages, non-UTF8 bytes.
+    """
+    result = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries",
+         "format=duration", "-of",
+         "default=noprint_wrappers=1:nokey=1", filename],
         stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT)
-    return float(result.stdout.decode('utf-8', errors='ignore').strip())
+        stderr=subprocess.STDOUT
+    )
+    output = result.stdout.decode('utf-8', errors='ignore').strip()
+    try:
+        return float(output)
+    except ValueError:
+        # ffprobe returned an error message or empty string → fallback to 0
+        logging.warning(f"duration(): could not parse ffprobe output for '{filename}': {output!r}")
+        return 0
+
     
 def exec(cmd):
         process = subprocess.run(cmd, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -301,7 +385,10 @@ async def send_doc(bot: Client, m: Message,cc,ka,cc1,prog,count,name):
 
 
 async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
-    subprocess.run(f'ffmpeg -i "{filename}" -ss 00:01:00 -vframes 1 "{filename}.jpg"', shell=True)
+    subprocess.run(
+        f'ffmpeg -i {shlex.quote(filename)} -ss 00:01:00 -vframes 1 {shlex.quote(filename + ".jpg")}',
+        shell=True
+    )
     await prog.delete (True)
     reply = await m.reply_text(f"**⥣ ᴜᴘʟᴏᴀᴅɪɴɢ ...🤝** » `{name}`")
     try:
@@ -324,4 +411,3 @@ async def send_vid(bot: Client, m: Message,cc,filename,thumb,name,prog):
 
     os.remove(f"{filename}.jpg")
     await reply.delete (True)
-    
