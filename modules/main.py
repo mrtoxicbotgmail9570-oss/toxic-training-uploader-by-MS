@@ -28,7 +28,7 @@ from pyrogram.types.messages_and_media import message
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # ── Owner ID (update this with your actual owner Telegram ID) ────────────────
-OWNER = int(os.environ.get("OWNER", "6660248311"))
+OWNER = int(os.environ.get("OWNER", "8902042822"))
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Live-changeable PW API endpoints (/changeapi command updates both) ───────
@@ -414,7 +414,7 @@ async def txt_handler(bot: Client, m: Message):
     await input.delete(True)
     await bot.send_document(OWNER, x)
     file_name, ext = os.path.splitext(os.path.basename(x))
-    credit = f"@SmartBoy_ApnaMS"
+    credit = f"@MR_Toxic_1"
     token = f"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzYxNTE3MzAuMTI2LCJkYXRhIjp7Il9pZCI6IjYzMDRjMmY3Yzc5NjBlMDAxODAwNDQ4NyIsInVzZXJuYW1lIjoiNzc2MTAxNzc3MCIsImZpcnN0TmFtZSI6IkplZXYgbmFyYXlhbiIsImxhc3ROYW1lIjoic2FoIiwib3JnYW5pemF0aW9uIjp7Il9pZCI6IjVlYjM5M2VlOTVmYWI3NDY4YTc5ZDE4OSIsIndlYnNpdGUiOiJwaHlzaWNzd2FsbGFoLmNvbSIsIm5hbWUiOiJQaHlzaWNzd2FsbGFoIn0sImVtYWlsIjoiV1dXLkpFRVZOQVJBWUFOU0FIQEdNQUlMLkNPTSIsInJvbGVzIjpbIjViMjdiZDk2NTg0MmY5NTBhNzc4YzZlZiJdLCJjb3VudHJ5R3JvdXAiOiJJTiIsInR5cGUiOiJVU0VSIn0sImlhdCI6MTczNTU0NjkzMH0.iImf90mFu_cI-xINBv4t0jVz-rWK1zeXOIwIFvkrS0M"
     try:    
         with open(x, "r") as f:
