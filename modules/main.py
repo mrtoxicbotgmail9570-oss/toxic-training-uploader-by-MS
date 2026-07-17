@@ -32,8 +32,8 @@ OWNER = int(os.environ.get("OWNER", "8902042822"))
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Live-changeable PW API endpoints (/changeapi command updates both) ───────
-PWAPI1 = os.environ.get("PWAPI1", "https://anonymouspwplayerrrr-c95d81521328.herokuapp.com/pw")
-PWAPI2 = os.environ.get("PWAPI2", "https://anonymouspwplayerrrr-c95d81521328.herokuapp.com/pw")
+PWAPI1 = os.environ.get("PWAPI1", "https://anonymouspwplayeer-2038df9c1dbd.herokuapp.com/pw")
+PWAPI2 = os.environ.get("PWAPI2", "https://anonymouspwplayeer-2038df9c1dbd.herokuapp.com/pw")
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Persistent Auth Users (JSON-backed, survives bot restart) ────────────────
